@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <template id="hospital_patient">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="report.external_layout"/>
+                    <h2>Patient Card</h2>
+                </t>
+            </t>
+        </template>
+        <report id="report_patient_pdf"
+                model="hospital.patient"
+                report_type="qweb-pdf"
+                string="Patient Card"
+                name="rs_hospital.hospital_patient"
+                file="rs_hospital.hospital_patient"/>
+    </data>
+</odoo>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="action_patient" model="ir.actions.act_window">
+            <field name="name">Patient</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hospital.patient</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">create new patient</p>
+            </field>
+        </record>
+        <menuitem id="hospital_root" name="Hospital" sequence="0"
+                  web_icon="rs_hospital /static/description/icon.png"/>
+        <menuitem id="hospital_patients" name="Patients" parent="hospital_root"
+                  action="action_patient"/>
+        <record id="patient_form" model="ir.ui.view">
+            <field name="">patient.form</field>
+            <field name="model">hospital.patient</field>
+            <field name="arch" type="xml">
+                <form string="Patient Form">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="open_patient_appointments"
+                                    type="object"
+                                    class="oe_stat_button"
+                                    icon="fa-calendar">
+                                <field string="(O)Appointments" name="appointment_count" widget="statinfo"/>
+                            </button>
+                             <button name="%(patient_appointment_action)d"
+                                    type="action"
+                                    class="oe_stat_button"
+                                    icon="fa-usd">
+                                <field string="(A)Appointments" name="appointment_count" widget="statinfo"/>
+                            </button>
+
+                        </div>
+                        <field name="image" widget="image" class="oe_avatar"/>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name_seq" readonly="1"/>
+                            </h1>
+
+                        </div>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="patient_name"/>
+                                <field name="gender"/>
+                            </group>
+                            <group>
+                                <field name="patient_age"/>
+                                <field name="age_group"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="notes"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"
+                               widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"
+                               options="{'post_refresh':'recipients'}"/>
+                    </div>
+
+                </form>
+            </field>
+
+        </record>
+        <record id="patient_tree" model="ir.ui.view">
+            <field name="name">patient.tree</field>
+            <field name="model">hospital.patient</field>
+            <field name="arch" type="xml">
+                <tree string="Patients Tree">
+                    <field name="name_seq"/>
+                    <field name="name"/>
+                    <field name="patient_name"/>
+                    <field name="patient_age" sum="Total Ages"/>
+                    <field name="age_group"/>
+                    <field name="gender"/>
+                    <field name="notes"/>
+                </tree>
+            </field>
+
+        </record>
+        <record id="patient_search" model="ir.ui.view">
+            <field name="name">patient.search</field>
+            <field name="model">hospital.patient</field>
+            <field name="arch" type="xml">
+                <search string="Patient Search">
+                    <field name="name"
+                           filter_domain="[('patient_name','ilike',self)]"/>
+                    <field name="patient_name" string="Patient"/>
+                    <field name="patient_age" string="Age"/>
+                    <field name="notes" string="Notes"/>
+                    <separator/>
+                    <filter string="Male" domain="[('gender','=','male')]"
+                            name="male"/>
+                    <filter string="Female" domain="[('gender','=','fe_male')]"
+                            name="female"/>
+                    <filter string="Patient"
+                            name="patient_name"
+                            context="{'group_by':'patient_name'}"/>
+                    <filter string="Patient Age"
+                            name="patient_age"
+                            context="{'group_by':'patient_age'}"/>
+                    <filter string="Notes" context="{'group_by':'notes'}"/>
+                    <filter string="Gender" context="{'group_by':'gender'}"/>
+                </search>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="inherit_sale_order_form_view">
+            <field name="name">inherit.sale.order.form.view</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="patient_name"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

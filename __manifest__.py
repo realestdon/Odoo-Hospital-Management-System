@@ -1,0 +1,22 @@
+{
+    'name': 'Hospital Management System',
+    'version': '10.0.1.0.0',
+    'summary': 'Manages Hospital Records',
+    'sequence': '1',
+    'category': 'Extra Tools',
+    'license': 'AGPL-3',
+    'author': 'Dishon Kadoh',
+    'maintainer': 'Dishon Kadoh',
+    'website': 'dkadoh92@gmail.com',
+    'depends': ['base','mail','sale'],
+    'data': ['security/ir.model.access.csv',
+             'data/sequence.xml',
+             'views/patient.xml',
+             'views/appointment.xml',
+             'report/report.xml'],
+    'demo': ['demo/demo.xml'],
+    'application': True,
+    'installable': True,
+    'auto_install': False,
+
+}
