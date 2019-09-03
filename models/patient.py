@@ -25,7 +25,7 @@ class HospitalPatient(models.Model):
     def open_patient_appointments(self):
         return {
             'name': _('Appointments'),
-            'domain':[('patient_name','=',self.id)],
+            'domain':[('patient_name','in',self.id)],
             'res_model': 'hospital.appointment',
             'view_type':'form',
             'view_mode':'tree,form',
@@ -45,10 +45,13 @@ class HospitalPatient(models.Model):
                            default=lambda self: _('NEW'))
     appointment_count = fields.Integer('# Appointments',compute='_number_of_appointments')
     appointment_ids = fields.One2many('hospital.appointment','patient_name')
+    active = fields.Boolean(string='Active',default=True)
+    doctor_id = fields.Many2one('hospital.doctor', string='Doctor')
+
 
     @api.multi
     def _number_of_appointments(self):
-        data = self.env['hospital.appointment'].search([('patient_name','=',self.ids)]).ids
+        data = self.env['hospital.appointment'].search([('patient_name','in',self.ids)]).ids
         self.appointment_count = len(data)
 
     @api.constrains('patient_age')

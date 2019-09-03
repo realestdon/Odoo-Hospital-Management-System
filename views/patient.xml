@@ -20,6 +20,9 @@
             <field name="model">hospital.patient</field>
             <field name="arch" type="xml">
                 <form string="Patient Form">
+                    <header>
+                        <button name="test_name" string="Create Appointment" type="object" class="oe_highlight"/>
+                    </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
                             <button name="open_patient_appointments"
@@ -34,7 +37,12 @@
                                     icon="fa-usd">
                                 <field string="(A)Appointments" name="appointment_count" widget="statinfo"/>
                             </button>
-
+                            <button name="toggle_active"
+                                    icon="fa-archive"
+                                    type="object"
+                                    class="oe_stat_button">
+                                <field name="active" widget="boolean_button" options="{&quot;terminology&quot;: &quot;archive&quot;}"/>
+                            </button>
                         </div>
                         <field name="image" widget="image" class="oe_avatar"/>
                         <div class="oe_title">
@@ -48,6 +56,7 @@
                                 <field name="name"/>
                                 <field name="patient_name"/>
                                 <field name="gender"/>
+                                <field name="doctor_id" options="{'no_create_edit':True,'no_create':True,'no_open':True}"/>
                             </group>
                             <group>
                                 <field name="patient_age"/>
@@ -78,6 +87,7 @@
                     <field name="name"/>
                     <field name="patient_name"/>
                     <field name="patient_age" sum="Total Ages"/>
+                    <field name="doctor_id"/>
                     <field name="age_group"/>
                     <field name="gender"/>
                     <field name="notes"/>
@@ -95,6 +105,7 @@
                     <field name="patient_name" string="Patient"/>
                     <field name="patient_age" string="Age"/>
                     <field name="notes" string="Notes"/>
+                    <field name="doctor_id" string="Doctor"/>
                     <separator/>
                     <filter string="Male" domain="[('gender','=','male')]"
                             name="male"/>
@@ -108,6 +119,7 @@
                             context="{'group_by':'patient_age'}"/>
                     <filter string="Notes" context="{'group_by':'notes'}"/>
                     <filter string="Gender" context="{'group_by':'gender'}"/>
+                    <filter string="Doctor" context="{'group_by':'doctor_id'}"/>
                 </search>
             </field>
         </record>

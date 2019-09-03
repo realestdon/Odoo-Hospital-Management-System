@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="module_category_hospital_management"
+                model="ir.module.category">
+            <field name="name">Hospital</field>
+            <field name="description">Security for Hospital Module</field>
+            <field name="sequence">1</field>
+        </record>
+        <record id="group_hospital_doctor" model="res.groups">
+            <field name="name">Doctor</field>
+            <field name="category_id" ref="module_category_hospital_management"/>
+        </record>
+        <record id="group_hospital_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="module_category_hospital_management"/>
+            <field name="implied_ids" eval="[(4, ref('group_hospital_doctor'))]"/>
+        </record>
+          <record id="doctors_rule" model="ir.rule">
+            <field name="name">Doctors Rule</field>
+            <field name="domain_force">[]</field>
+            <field name="model_id" ref="model_hospital_patient"/>
+            <field name="groups" eval="[4,ref('group_hospital_doctor')]"/>
+
+        </record>
+
+    </data>
+</odoo>
