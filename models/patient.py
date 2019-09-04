@@ -33,12 +33,13 @@ class HospitalPatient(models.Model):
             'type':'ir.actions.act_window'
         }
 
-    patient_name = fields.Char('Name', required=True)
+    patient_name = fields.Char('Name', required=False)
     patient_age = fields.Integer('Age')
     notes = fields.Text('Notes', default=_get_default_note)
     image = fields.Binary('Image')
     name = fields.Char('Test')
-    gender = fields.Selection(string='Gender',selection=[('male', 'Male'),('fe_male', 'Female')],default='male')
+    gender_id = fields.Selection(string='Doctor Gender',selection=[('male', 'Male'),('female', 'Female')])
+    gender = fields.Selection(string='Gender',selection=[('male', 'Male'),('female', 'Female')],default='male')
     age_group = fields.Selection(string='Age Group', selection=[('major','Major'),('minor','Minor')],compute='_set_age_group')
     name_seq = fields.Char(string='Order Reference', required=True,
                            readonly=True, copy=False, index=True,
@@ -74,3 +75,10 @@ class HospitalPatient(models.Model):
                     items.age_group = 'major'
                 else:
                     items.age_group = 'minor'
+
+    @api.onchange('doctor_id')
+    def doctor_gender(self):
+        for rec in self:
+            if rec.doctor_id:
+                rec.gender_id = rec.doctor_id.gender
+

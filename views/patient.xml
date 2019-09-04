@@ -11,8 +11,6 @@
                 <p class="oe_view_nocontent_create">create new patient</p>
             </field>
         </record>
-        <menuitem id="hospital_root" name="Hospital" sequence="0"
-                  web_icon="rs_hospital /static/description/icon.png"/>
         <menuitem id="hospital_patients" name="Patients" parent="hospital_root"
                   action="action_patient"/>
         <record id="patient_form" model="ir.ui.view">
@@ -21,7 +19,10 @@
             <field name="arch" type="xml">
                 <form string="Patient Form">
                     <header>
-                        <button name="test_name" string="Create Appointment" type="object" class="oe_highlight"/>
+                        <button name="%(create_appointment_action)d"
+                                string="Create Appointment" type="action"
+                                class="oe_highlight"
+                                context="{'default_patient_id':active_id}"/>
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
@@ -29,19 +30,24 @@
                                     type="object"
                                     class="oe_stat_button"
                                     icon="fa-calendar">
-                                <field string="(O)Appointments" name="appointment_count" widget="statinfo"/>
+                                <field string="(O)Appointments"
+                                       name="appointment_count"
+                                       widget="statinfo"/>
                             </button>
-                             <button name="%(patient_appointment_action)d"
+                            <button name="%(patient_appointment_action)d"
                                     type="action"
                                     class="oe_stat_button"
                                     icon="fa-usd">
-                                <field string="(A)Appointments" name="appointment_count" widget="statinfo"/>
+                                <field string="(A)Appointments"
+                                       name="appointment_count"
+                                       widget="statinfo"/>
                             </button>
                             <button name="toggle_active"
                                     icon="fa-archive"
                                     type="object"
                                     class="oe_stat_button">
-                                <field name="active" widget="boolean_button" options="{&quot;terminology&quot;: &quot;archive&quot;}"/>
+                                <field name="active" widget="boolean_button"
+                                       options="{&quot;terminology&quot;: &quot;archive&quot;}"/>
                             </button>
                         </div>
                         <field name="image" widget="image" class="oe_avatar"/>
@@ -56,7 +62,9 @@
                                 <field name="name"/>
                                 <field name="patient_name"/>
                                 <field name="gender"/>
-                                <field name="doctor_id" options="{'no_create_edit':True,'no_create':True,'no_open':True}"/>
+                                <field name="gender_id"/>
+                                <field name="doctor_id"
+                                       options="{'no_create_edit':True,'no_create':True,'no_open':True}"/>
                             </group>
                             <group>
                                 <field name="patient_age"/>
@@ -88,6 +96,7 @@
                     <field name="patient_name"/>
                     <field name="patient_age" sum="Total Ages"/>
                     <field name="doctor_id"/>
+                    <field name="gender_id"/>
                     <field name="age_group"/>
                     <field name="gender"/>
                     <field name="notes"/>

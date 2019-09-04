@@ -13,6 +13,8 @@
                 </p>
             </field>
         </record>
+         <menuitem id="hospital_root" name="Hospital" sequence="0"
+                  web_icon="rs_hospital /static/description/icon.png"/>
         <menuitem id="hospital_appointment_root"
                   name="Hospital Appointment"
                   parent="hospital_root"
